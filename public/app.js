@@ -1,7 +1,7 @@
 import { renderDashboard, renderResidents, renderProperties, renderBonds } from './sections1.js';
 import { renderTransactions, renderBudget, renderCouncils, renderElections, renderJury, renderCrimes, renderCharity } from './sections2.js';
+import { renderTax, renderCalendar, renderCrimeDescriptions } from './sections3.js';
 import { API } from './components.js';
-import { render_tax, render_calendar, render_crime_desc } from './sections3.js';
 
 const $ = id => document.getElementById(id);
 
@@ -33,9 +33,9 @@ const renderers = {
   jury: el => renderJury(el),
   crimes: el => renderCrimes(el),
   charity: el => renderCharity(el),
-  tax: el => render_tax().then(html => el.innerHTML = html),
-  calendar: el => render_calendar().then(html => el.innerHTML = html),
-  'crime-descriptions': el => render_crime_desc().then(html => el.innerHTML = html)
+  tax: el => renderTax(el),
+  calendar: el => renderCalendar(el),
+  'crime-descriptions': el => renderCrimeDescriptions(el)
 };
 
 function navigate(section) {

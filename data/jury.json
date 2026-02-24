@@ -4,7 +4,7 @@
     "last_name": "Time",
     "first_name": "Traveling",
     "jury_duty": true,
-    "payment": 181
+    "payment": null
   },
   {
     "resident_id": 3,
@@ -38,15 +38,8 @@
     "resident_id": 9,
     "last_name": "",
     "first_name": "",
-    "jury_duty": true,
-    "payment": 30
-  },
-  {
-    "resident_id": 10,
-    "last_name": "",
-    "first_name": "",
     "jury_duty": false,
-    "payment": 0
+    "payment": null
   },
   {
     "resident_id": 11,
@@ -56,6 +49,13 @@
     "payment": 30
   },
   {
+    "resident_id": 12,
+    "last_name": "",
+    "first_name": "",
+    "jury_duty": false,
+    "payment": null
+  },
+  {
     "resident_id": 13,
     "last_name": "",
     "first_name": "",
@@ -63,10 +63,10 @@
     "payment": 4
   },
   {
-    "resident_id": 14,
+    "resident_id": 15,
     "last_name": "",
     "first_name": "",
     "jury_duty": true,
-    "payment": 0
+    "payment": null
   }
 ]

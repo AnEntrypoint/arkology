@@ -68,7 +68,7 @@
   {
     "id": "P7",
     "transaction": "T7",
-    "address": "48 Youtube Dr",
+    "address": "48 Youtube dr",
     "sqft": 2400,
     "value_k": 200,
     "date": "02/05/25",
@@ -85,7 +85,7 @@
     "date": "06/04/25",
     "owner_id": 20,
     "used_for": "Res",
-    "prop_tax": 0
+    "prop_tax": null
   },
   {
     "id": "P9",
@@ -96,7 +96,7 @@
     "date": "07/08/25",
     "owner_id": 15,
     "used_for": "Charity",
-    "prop_tax": 0
+    "prop_tax": null
   },
   {
     "id": "P10",
@@ -107,6 +107,6 @@
     "date": "10/06/25",
     "owner_id": 11,
     "used_for": "School",
-    "prop_tax": 0
+    "prop_tax": null
   }
 ]

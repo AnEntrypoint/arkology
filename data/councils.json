@@ -1,7 +1,7 @@
 [
   {
     "council": "Hexarchy",
-    "position": 1,
+    "seat": 1,
     "decision_id": 20,
     "first_name": "Traveling",
     "resident_id": 2,
@@ -11,7 +11,7 @@
   },
   {
     "council": "Hexarchy",
-    "position": 2,
+    "seat": 2,
     "decision_id": 21,
     "first_name": "Bogie",
     "resident_id": null,
@@ -21,7 +21,7 @@
   },
   {
     "council": "Hexarchy",
-    "position": 3,
+    "seat": 3,
     "decision_id": 22,
     "first_name": "Lisa",
     "resident_id": null,
@@ -31,7 +31,7 @@
   },
   {
     "council": "Hexarchy",
-    "position": 4,
+    "seat": 4,
     "decision_id": 23,
     "first_name": "Not-Dark",
     "resident_id": null,
@@ -41,7 +41,7 @@
   },
   {
     "council": "Hexarchy",
-    "position": 5,
+    "seat": 5,
     "decision_id": 24,
     "first_name": "Sheba",
     "resident_id": null,
@@ -51,7 +51,7 @@
   },
   {
     "council": "Hexarchy",
-    "position": 6,
+    "seat": 6,
     "decision_id": 25,
     "first_name": "Monopoly Man",
     "resident_id": null,
@@ -61,7 +61,7 @@
   },
   {
     "council": "Development",
-    "position": 1,
+    "seat": 1,
     "decision_id": 4,
     "first_name": "",
     "resident_id": 5,
@@ -71,7 +71,7 @@
   },
   {
     "council": "Development",
-    "position": 2,
+    "seat": 2,
     "decision_id": 6,
     "first_name": "Pail",
     "resident_id": null,
@@ -81,92 +81,12 @@
   },
   {
     "council": "Development",
-    "position": 3,
+    "seat": 3,
     "decision_id": 9,
     "first_name": "Doozle",
     "resident_id": null,
     "date": "03/01/22",
     "reason": "GLP, free cities",
-    "salary": 30
-  },
-  {
-    "council": "Artistic",
-    "position": 1,
-    "decision_id": 10,
-    "first_name": "Color Tree",
-    "resident_id": null,
-    "date": "04/01/22",
-    "reason": "Meme magician",
-    "salary": 30
-  },
-  {
-    "council": "Artistic",
-    "position": 2,
-    "decision_id": 14,
-    "first_name": "",
-    "resident_id": 9,
-    "date": "01/01/22",
-    "reason": "Wordsmith / Jester",
-    "salary": 30
-  },
-  {
-    "council": "Artistic",
-    "position": 3,
-    "decision_id": 5,
-    "first_name": "Count Dracula",
-    "resident_id": null,
-    "date": "12/24/21",
-    "reason": "Esoteric",
-    "salary": 30
-  },
-  {
-    "council": "Artistic",
-    "position": 4,
-    "decision_id": 7,
-    "first_name": "Bogie",
-    "resident_id": null,
-    "date": "12/24/21",
-    "reason": "Blender Skill",
-    "salary": 30
-  },
-  {
-    "council": "Immigration",
-    "position": 1,
-    "decision_id": 15,
-    "first_name": "Erradic Dramatic",
-    "resident_id": null,
-    "date": "03/01/22",
-    "reason": "Childhood friend",
-    "salary": 30
-  },
-  {
-    "council": "Immigration",
-    "position": 2,
-    "decision_id": 16,
-    "first_name": "Milk Man",
-    "resident_id": null,
-    "date": "03/01/22",
-    "reason": "Sheepit master",
-    "salary": 30
-  },
-  {
-    "council": "Judges",
-    "position": 1,
-    "decision_id": 17,
-    "first_name": "",
-    "resident_id": 11,
-    "date": "07/10/21",
-    "reason": "M. Ezz Referal",
-    "salary": 30
-  },
-  {
-    "council": "Judges",
-    "position": 2,
-    "decision_id": 18,
-    "first_name": "",
-    "resident_id": 5,
-    "date": "01/01/22",
-    "reason": "Hand of the king",
     "salary": 30
   }
 ]

@@ -8,51 +8,9 @@
     "votes1": 6,
     "option2": "Version 3",
     "votes2": 0,
-    "votes_yes": 6,
+    "votes_yes": null,
     "votes_no": 0,
-    "pct_favor": 100,
+    "pct_favor": null,
     "passed": true
-  },
-  {
-    "id": 2,
-    "type": "General Election 2023",
-    "date": "2023",
-    "candidates": [
-      {
-        "name": "TravelingTT",
-        "votes": 7,
-        "rank": "1st"
-      },
-      {
-        "name": "Bogie",
-        "votes": 7,
-        "rank": "2nd"
-      },
-      {
-        "name": "Lisa",
-        "votes": 2,
-        "rank": "3rd"
-      },
-      {
-        "name": "Not-Dark",
-        "votes": 1,
-        "rank": "4th"
-      },
-      {
-        "name": "Sheba",
-        "votes": 1,
-        "rank": "5th"
-      },
-      {
-        "name": "Monopoly Man",
-        "votes": 0,
-        "rank": "6th"
-      },
-      {
-        "name": "Dusty",
-        "votes": 0,
-        "rank": "7th"
-      }
-    ]
   }
 ]

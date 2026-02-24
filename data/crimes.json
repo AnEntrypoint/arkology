@@ -1,57 +1,39 @@
 [
   {
     "id": 1,
-    "date": "06/28/23",
-    "resident_id": 4,
-    "crime": "Harassment",
-    "guilty": true,
-    "sentence_months": 1,
-    "sentence_start": "07/01/23",
-    "sentence_end": "07/31/23",
-    "victim_id": 5,
-    "fine": 2000,
-    "fine_owed": 1000,
-    "fine_paid": false,
-    "deputy_id": 6,
-    "description": "Harassed HighTea"
+    "not_guilty": false,
+    "months": 1,
+    "final_months": 0.75
   },
   {
     "id": 2,
-    "date": "06/29/23",
-    "resident_id": 2,
-    "crime": "Unknown",
-    "guilty": false,
-    "sentence_months": 0,
-    "victim_id": 6,
-    "fine": 0,
-    "fine_owed": 0,
-    "fine_paid": false,
-    "description": ""
+    "not_guilty": true,
+    "months": null,
+    "final_months": null,
+    "note": "Without NG calc"
   },
   {
     "id": 3,
-    "date": "06/30/23",
-    "resident_id": 3,
-    "crime": "Unknown",
-    "guilty": false,
-    "sentence_months": 0,
-    "victim_id": 7,
-    "fine": 0,
-    "fine_owed": 0,
-    "fine_paid": false,
-    "description": ""
+    "not_guilty": false,
+    "months": 3,
+    "final_months": 1.88
   },
   {
     "id": 4,
-    "date": "07/01/23",
-    "resident_id": 5,
-    "crime": "Unknown",
-    "guilty": false,
-    "sentence_months": 0,
-    "victim_id": 3,
-    "fine": 0,
-    "fine_owed": 0,
-    "fine_paid": false,
-    "description": ""
+    "not_guilty": true,
+    "months": null,
+    "final_months": null
+  },
+  {
+    "id": 5,
+    "not_guilty": false,
+    "months": 2,
+    "final_months": null
+  },
+  {
+    "id": 6,
+    "not_guilty": false,
+    "months": 1.5,
+    "final_months": null
   }
 ]

@@ -132,21 +132,17 @@ def get_councils():
 def get_charity():
     return jsonify(load('charity'))
 
-
 @app.route('/api/tax')
 def get_tax():
-    with open('data/tax.json') as f:
-        return jsonify(json.load(f))
+    return jsonify(load('tax'))
 
 @app.route('/api/calendar')
 def get_calendar():
-    with open('data/calendar.json') as f:
-        return jsonify(json.load(f))
+    return jsonify(load('calendar'))
 
 @app.route('/api/crime-descriptions')
 def get_crime_descriptions():
-    with open('data/crime_descriptions.json') as f:
-        return jsonify(json.load(f))
+    return jsonify(load('crime_descriptions'))
 
 if __name__ == '__main__':
-    app.run(debug=True, port=3000)
+    app.run(debug=True, port=5000)
