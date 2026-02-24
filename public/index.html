@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spreadsheet Editor</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            height: 90vh;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 25px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .header h1 {
+            font-size: 24px;
+            font-weight: 600;
+        }
+        
+        .header-actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        button {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: 1px solid rgba(255,255,255,0.3);
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.2s;
+        }
+        
+        button:hover {
+            background: rgba(255,255,255,0.3);
+            transform: translateY(-2px);
+        }
+        
+        .controls {
+            padding: 20px 30px;
+            border-bottom: 1px solid #e0e0e0;
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+        
+        .control-group {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+        
+        input[type="text"] {
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 14px;
+            flex: 1;
+            min-width: 150px;
+        }
+        
+        input[type="text"]:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+        
+        .btn-primary {
+            background: #667eea !important;
+            border-color: #667eea !important;
+        }
+        
+        .btn-primary:hover {
+            background: #5568d3 !important;
+            border-color: #5568d3 !important;
+        }
+        
+        .btn-success {
+            background: #48bb78 !important;
+            border-color: #48bb78 !important;
+        }
+        
+        .btn-danger {
+            background: #f56565 !important;
+            border-color: #f56565 !important;
+        }
+        
+        .spreadsheet-wrapper {
+            flex: 1;
+            overflow: auto;
+            padding: 20px 30px;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+        }
+        
+        th {
+            background: #f7f7f7;
+            padding: 12px;
+            text-align: left;
+            font-weight: 600;
+            color: #333;
+            border-bottom: 2px solid #e0e0e0;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+        
+        td {
+            padding: 12px;
+            border-bottom: 1px solid #f0f0f0;
+            color: #555;
+        }
+        
+        tbody tr:hover {
+            background: #f9f9f9;
+        }
+        
+        .cell-input {
+            width: 100%;
+            padding: 6px 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+            font-family: inherit;
+        }
+        
+        .cell-input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 2px rgba(102, 126, 234, 0.1);
+        }
+        
+        .actions-cell {
+            display: flex;
+            gap: 6px;
+        }
+        
+        .actions-cell button {
+            padding: 4px 8px;
+            font-size: 12px;
+            background: #f0f0f0 !important;
+            color: #333 !important;
+            border: 1px solid #ddd !important;
+        }
+        
+        .actions-cell button:hover {
+            background: #e0e0e0 !important;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #999;
+        }
+        
+        .spinner {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #667eea;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #999;
+        }
+        
+        .empty-state svg {
+            width: 100px;
+            height: 100px;
+            margin-bottom: 20px;
+            opacity: 0.3;
+        }
+        
+        .status-message {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            padding: 12px 20px;
+            border-radius: 6px;
+            color: white;
+            animation: slideIn 0.3s ease;
+            z-index: 1000;
+        }
+        
+        .status-message.success {
+            background: #48bb78;
+        }
+        
+        .status-message.error {
+            background: #f56565;
+        }
+        
+        @keyframes slideIn {
+            from {
+                transform: translateX(400px);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+        
+        .col-header-input {
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-weight: 600;
+            font-size: 14px;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📊 Spreadsheet Editor</h1>
+            <div class="header-actions">
+                <button onclick="exportData()">📥 Export</button>
+                <button onclick="importJSON()">📤 Import</button>
+            </div>
+        </div>
+        
+        <div class="controls">
+            <div class="control-group">
+                <input type="text" id="newColInput" placeholder="New column name...">
+                <button class="btn-primary" onclick="addColumn()">+ Column</button>
+            </div>
+            <div class="control-group">
+                <button class="btn-success" onclick="addRow()">+ Row</button>
+            </div>
+        </div>
+        
+        <div class="spreadsheet-wrapper">
+            <div id="content"></div>
+        </div>
+    </div>
+    
+    <script>
+        let data = null;
+        let editingCell = null;
+        
+        async function loadData() {
+            try {
+                const response = await fetch('/api/data');
+                data = await response.json();
+                render();
+            } catch (error) {
+                console.error('Error loading data:', error);
+                showStatus('Failed to load data', 'error');
+            }
+        }
+        
+        function render() {
+            if (!data) {
+                document.getElementById('content').innerHTML = '<div class="loading"><div class="spinner"></div>Loading...</div>';
+                return;
+            }
+            
+            if (data.rows.length === 0) {
+                document.getElementById('content').innerHTML = '<div class="empty-state"><p>No data yet. Add a row to get started!</p></div>';
+                return;
+            }
+            
+            let html = '<table><thead><tr>';
+            
+            data.columns.forEach((col, idx) => {
+                html += `<th style="max-width: 200px;">
+                    <input type="text" class="col-header-input" value="${col}" 
+                           onchange="updateColumn(${idx}, this.value)" onblur="updateColumn(${idx}, this.value)">
+                </th>`;
+            });
+            html += '<th style="width: 100px;">Actions</th></tr></thead><tbody>';
+            
+            data.rows.forEach(row => {
+                html += '<tr>';
+                data.columns.forEach(col => {
+                    const value = row.data?.[col] || '';
+                    html += `<td style="max-width: 200px;"><input type="text" class="cell-input" 
+                             value="${value}" 
+                             onchange="updateCell(${row.id}, '${col}', this.value)"
+                             onblur="updateCell(${row.id}, '${col}', this.value)"></td>`;
+                });
+                html += `<td><div class="actions-cell">
+                    <button onclick="deleteRow(${row.id})">Delete</button>
+                </div></td></tr>`;
+            });
+            
+            html += '</tbody></table>';
+            document.getElementById('content').innerHTML = html;
+        }
+        
+        async function updateCell(rowId, column, value) {
+            const row = data.rows.find(r => r.id === rowId);
+            if (row) {
+                if (!row.data) row.data = {};
+                row.data[column] = value;
+                await saveData();
+            }
+        }
+        
+        async function updateColumn(idx, newName) {
+            const oldName = data.columns[idx];
+            if (oldName !== newName) {
+                data.columns[idx] = newName;
+                data.rows.forEach(row => {
+                    if (row.data && oldName in row.data) {
+                        row.data[newName] = row.data[oldName];
+                        delete row.data[oldName];
+                    }
+                });
+                await saveData();
+            }
+        }
+        
+        async function addRow() {
+            const newId = Math.max(0, ...data.rows.map(r => r.id)) + 1;
+            const newRow = { id: newId, data: {} };
+            data.columns.forEach(col => { newRow.data[col] = ''; });
+            data.rows.push(newRow);
+            await saveData();
+        }
+        
+        async function addColumn() {
+            const name = document.getElementById('newColInput').value.trim();
+            if (name) {
+                if (!data.columns.includes(name)) {
+                    data.columns.push(name);
+                    data.rows.forEach(row => {
+                        if (!row.data) row.data = {};
+                        row.data[name] = '';
+                    });
+                    document.getElementById('newColInput').value = '';
+                    await saveData();
+                } else {
+                    showStatus('Column already exists', 'error');
+                }
+            }
+        }
+        
+        async function deleteRow(rowId) {
+            if (confirm('Delete this row?')) {
+                data.rows = data.rows.filter(r => r.id !== rowId);
+                await saveData();
+            }
+        }
+        
+        async function saveData() {
+            try {
+                await fetch('/api/data', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+                render();
+                showStatus('Saved!', 'success');
+            } catch (error) {
+                showStatus('Failed to save', 'error');
+            }
+        }
+        
+        function exportData() {
+            const dataStr = JSON.stringify(data, null, 2);
+            const blob = new Blob([dataStr], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'spreadsheet.json';
+            a.click();
+            showStatus('Exported!', 'success');
+        }
+        
+        function importJSON() {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = '.json';
+            input.onchange = async (e) => {
+                const file = e.target.files[0];
+                const text = await file.text();
+                try {
+                    data = JSON.parse(text);
+                    await saveData();
+                    showStatus('Imported!', 'success');
+                } catch (error) {
+                    showStatus('Invalid JSON file', 'error');
+                }
+            };
+            input.click();
+        }
+        
+        function showStatus(message, type) {
+            const div = document.createElement('div');
+            div.className = `status-message ${type}`;
+            div.textContent = message;
+            document.body.appendChild(div);
+            setTimeout(() => div.remove(), 3000);
+        }
+        
+        loadData();
+        setInterval(loadData, 5000);
+    </script>
+</body>
+</html>
