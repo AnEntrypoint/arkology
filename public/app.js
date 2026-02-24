@@ -1,7 +1,7 @@
 import { renderDashboard, renderResidents, renderProperties, renderBonds } from './sections1.js';
 import { renderTransactions, renderBudget, renderCouncils, renderElections, renderJury, renderCrimes, renderCharity } from './sections2.js';
 import { renderTax, renderCalendar, renderCrimeDescriptions } from './sections3.js';
-import { API } from './components.js';
+import { API, apiPost } from './components.js';
 
 const $ = id => document.getElementById(id);
 
@@ -11,14 +11,12 @@ window.delRes = async id => {
   await fetch(API + '/residents/' + id, { method: 'DELETE' });
   renderResidents($('residents'));
 };
-window.addRes = () => {
+window.addRes = async () => {
   const first = prompt('First name:');
   if (!first) return;
   const last = prompt('Last name:') || '';
-  fetch(API + '/residents', {
-    method: 'POST', headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ first_name: first, last_name: last, age: 0, alive: true, voting: false, gender: 'M', payment: 0 })
-  }).then(() => renderResidents($('residents')));
+  await apiPost('/residents', { first_name: first, last_name: last, age: 0, alive: true, voting: false, gender: 'M', payment: 0, email: '' });
+  renderResidents($('residents'));
 };
 
 const renderers = {

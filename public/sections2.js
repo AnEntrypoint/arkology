@@ -1,137 +1,318 @@
-import { webjsx } from 'https://webjsx.org/dist/webjsx.js';
-import { api, StatCard, PageHeader, Table, TR } from './components.js';
+import { api, apiPut, apiPost, apiDelete, StatCard, PageHeader, Table, TR, applyDiff, EditableInput, EditableSelect, EditableCheckbox, ActionButton } from './components.js';
+
+function h(tag, attrs = {}, ...children) {
+  const el = document.createElement(tag);
+  for (const [k, v] of Object.entries(attrs)) {
+    if (k === 'class') el.className = v;
+    else if (k.startsWith('on') && typeof v === 'function') el.addEventListener(k.slice(2).toLowerCase(), v);
+    else if (k === 'style' && typeof v === 'string') el.setAttribute('style', v);
+    else el.setAttribute(k, v);
+  }
+  for (const c of children.flat(Infinity).filter(Boolean)) {
+    if (c instanceof Node) el.appendChild(c);
+    else el.appendChild(document.createTextNode(String(c)));
+  }
+  return el;
+}
 
 export async function renderTransactions(el) {
   const data = await api('/transactions') || [];
+  
+  const updateTx = async (id, field, value) => {
+    const tx = data.find(t => t.id === id);
+    if (tx) {
+      tx[field] = value;
+      await apiPut(`/transactions/${id}`, tx);
+    }
+  };
+  
+  const dirOpts = [{value:1,label:'In'},{value:-1,label:'Out'}];
+  
   const rows = data.map(t => TR([
     t.id,
-    webjsx.html`<span class="${t.direction===1?'text-green-400':'text-red-400'}">${t.direction===1?'+ In':'- Out'}</span>`,
-    t.resident_id||'-', t.amount?`$${t.amount}`:'-', t.date||'-', t.purpose||'-'
+    EditableSelect(t.direction, dirOpts, v => updateTx(t.id, 'direction', parseInt(v))),
+    EditableInput(t.resident_id, v => updateTx(t.id, 'resident_id', v), '', 'number'),
+    EditableInput(t.amount, v => updateTx(t.id, 'amount', v), '', 'number'),
+    EditableInput(t.date, v => updateTx(t.id, 'date', v), 'Date'),
+    EditableInput(t.purpose, v => updateTx(t.id, 'purpose', v), 'Purpose'),
+    ActionButton('Del', async () => {
+      if (!confirm('Delete transaction ' + t.id + '?')) return;
+      await apiDelete('/transactions/' + t.id);
+      renderTransactions(el);
+    }, 'red')
   ], t.id));
-  webjsx.applyDiff(el, webjsx.html`<div>
-    ${PageHeader({ title:'Transactions', sub:'Financial ledger' })}
-    ${Table({ headers:['ID','Dir','Resident','Amount','Date','Purpose'], rows })}
-  </div>`);
+  
+  applyDiff(el, h('div', {},
+    PageHeader({ title:'Transactions', sub:'Financial ledger' }),
+    h('div', { class: 'mb-4' },
+      h('button', { class: 'btn-orange px-4 py-2 rounded-lg text-sm font-medium', onclick: async () => {
+        await apiPost('/transactions', { direction: 1, resident_id: null, amount: 0, date: '', purpose: '' });
+        renderTransactions(el);
+      }}, '+ Add Transaction')
+    ),
+    Table({ headers:['ID','Dir','Resident','Amount','Date','Purpose',''], rows })
+  ));
 }
 
 export async function renderBudget(el) {
   const data = await api('/budget') || [];
-  const rows = data.map(b => TR([
-    b.month+' '+b.year,
-    webjsx.html`<span class="${b.total<0?'text-red-400':'text-green-400'}">$${b.total}</span>`,
-    b.elec_revenue?`$${b.elec_revenue}`:'-',
-    b.sin_revenue?`$${b.sin_revenue}`:'-',
-    b.residents||'-', b.council_salary?`$${b.council_salary}`:'-'
+  
+  const updateBudget = async (idx, field, value) => {
+    const b = data[idx];
+    if (b) {
+      b[field] = value;
+      await apiPut(`/budget/${idx}`, b);
+    }
+  };
+  
+  const monthOpts = ['January','February','March','April','May','June','July','August','September','October','November','December'].map(m => ({value:m,label:m}));
+  
+  const rows = data.map((b, idx) => TR([
+    EditableSelect(b.month, monthOpts, v => updateBudget(idx, 'month', v)),
+    EditableInput(b.year, v => updateBudget(idx, 'year', v), '', 'number'),
+    EditableInput(b.total, v => updateBudget(idx, 'total', v), '', 'number'),
+    EditableInput(b.elec_revenue, v => updateBudget(idx, 'elec_revenue', v), '', 'number'),
+    EditableInput(b.sin_revenue, v => updateBudget(idx, 'sin_revenue', v), '', 'number'),
+    EditableInput(b.residents, v => updateBudget(idx, 'residents', v), '', 'number'),
+    EditableInput(b.council_salary, v => updateBudget(idx, 'council_salary', v), '', 'number'),
+    ActionButton('Del', async () => {
+      if (!confirm('Delete budget entry?')) return;
+      await apiDelete('/budget/' + idx);
+      renderBudget(el);
+    }, 'red')
   ]));
-  webjsx.applyDiff(el, webjsx.html`<div>
-    ${PageHeader({ title:'Budget History', sub:'Monthly financial records' })}
-    ${Table({ headers:['Period','Net','Elec Rev','Sin Rev','Residents','Council Salary'], rows })}
-  </div>`);
+  
+  applyDiff(el, h('div', {},
+    PageHeader({ title:'Budget History', sub:'Monthly financial records' }),
+    h('div', { class: 'mb-4' },
+      h('button', { class: 'btn-orange px-4 py-2 rounded-lg text-sm font-medium', onclick: async () => {
+        await apiPost('/budget', { month: 'January', year: 2024, total: 0, elec_revenue: 0, sin_revenue: 0, residents: 0, council_salary: 0 });
+        renderBudget(el);
+      }}, '+ Add Budget Entry')
+    ),
+    Table({ headers:['Month','Year','Net','Elec Rev','Sin Rev','Residents','Council Salary',''], rows })
+  ));
 }
 
 export async function renderCouncils(el) {
-  const res = await api('/councils') || { by_council:{} };
+  const res = await api('/councils') || { members: [], by_council: {} };
   const entries = Object.entries(res.by_council);
-  const sections = entries.map(([name, members]) => webjsx.html`
-    <div class="glass rounded-xl p-5 mb-4 glow-purple">
-      <h3 class="text-lg font-semibold mb-3" style="color:#f97316">${name} Council</h3>
-      <div class="grid grid-cols-2 lg:grid-cols-3 gap-3">
-        ${members.map(m => webjsx.html`
-          <div class="bg-black/30 rounded-lg p-3 border border-purple-900/30">
-            <p class="font-medium text-sm text-purple-200">${m.first_name||'Resident #'+m.resident_id}</p>
-            <p class="text-xs text-gray-500 mt-1">${m.reason||''}</p>
-            <p class="text-xs text-orange-400 mt-1">$${m.salary}/mo</p>
-          </div>`)}
-      </div>
-    </div>`);
-  webjsx.applyDiff(el, webjsx.html`<div>
-    ${PageHeader({ title:'Councils', sub:'Governance structure' })}
-    ${sections}
-  </div>`);
+  const members = res.members;
+  
+  const updateMember = async (idx, field, value) => {
+    const m = members[idx];
+    if (m) {
+      m[field] = value;
+      await apiPut(`/councils/${idx}`, m);
+    }
+  };
+  
+  const councilOpts = [...new Set(members.map(m => m.council))].map(c => ({value:c,label:c}));
+  
+  const sections = entries.map(([name, mems]) => 
+    h('div', { class: 'glass rounded-xl p-5 mb-4 glow-purple' },
+      h('h3', { class: 'text-lg font-semibold mb-3', style: 'color:#f97316' }, name + ' Council'),
+      h('div', { class: 'grid grid-cols-2 lg:grid-cols-3 gap-3' },
+        ...mems.map(m => {
+          const idx = members.findIndex(x => x === m);
+          return h('div', { class: 'bg-black/30 rounded-lg p-3 border border-purple-900/30' },
+            EditableInput(m.first_name, v => updateMember(idx, 'first_name', v), 'Name'),
+            h('div', { class: 'mt-2' }, EditableInput(m.resident_id, v => updateMember(idx, 'resident_id', v), 'Res ID', 'number')),
+            h('div', { class: 'mt-2' }, EditableInput(m.reason, v => updateMember(idx, 'reason', v), 'Reason')),
+            h('div', { class: 'mt-2' }, EditableInput(m.salary, v => updateMember(idx, 'salary', v), '$/mo', 'number'))
+          );
+        })
+      )
+    )
+  );
+  
+  applyDiff(el, h('div', {},
+    PageHeader({ title:'Councils', sub:'Governance structure' }),
+    h('div', { class: 'mb-4' },
+      h('button', { class: 'btn-orange px-4 py-2 rounded-lg text-sm font-medium', onclick: async () => {
+        await apiPost('/councils', { council: 'New Council', seat: 1, first_name: '', resident_id: null, date: '', reason: '', salary: 30 });
+        renderCouncils(el);
+      }}, '+ Add Council Member')
+    ),
+    ...sections
+  ));
 }
 
 export async function renderElections(el) {
   const data = await api('/elections') || [];
-  webjsx.applyDiff(el, webjsx.html`<div>
-    ${PageHeader({ title:'Elections', sub:'Voting history & results' })}
-    ${data.map(e => webjsx.html`
-      <div class="glass rounded-xl p-5 mb-4 glow-purple">
-        <div class="flex justify-between items-start mb-3">
-          <div>
-            <h3 class="font-semibold text-purple-200">${e.proposal||e.type}</h3>
-            <p class="text-xs text-gray-500">${e.date} · ${e.type||''}</p>
-          </div>
-          ${e.passed!==undefined ? webjsx.html`<span class="px-3 py-1 rounded-full text-xs ${e.passed?'bg-green-900/40 text-green-400':'bg-red-900/40 text-red-400'}">${e.passed?'Passed':'Failed'}</span>` : ''}
-        </div>
-        ${e.candidates ? webjsx.html`
-          <div class="grid grid-cols-3 gap-2 mt-3">
-            ${e.candidates.map(c => webjsx.html`
-              <div class="bg-black/30 rounded p-2 border border-purple-900/20">
-                <p class="text-sm font-medium">${c.name}</p>
-                <p class="text-xs text-orange-400">${c.votes} votes · ${c.rank}</p>
-              </div>`)}
-          </div>`
-        : webjsx.html`<p class="text-sm text-gray-400">${e.option1}: ${e.votes1} | ${e.option2}: ${e.votes2}</p>`}
-      </div>`)}
-  </div>`);
+  
+  const updateElection = async (id, field, value) => {
+    const e = data.find(x => x.id === id);
+    if (e) {
+      e[field] = value;
+      await apiPut(`/elections/${id}`, e);
+    }
+  };
+  
+  const items = data.map(e => 
+    h('div', { class: 'glass rounded-xl p-5 mb-4 glow-purple' },
+      h('div', { class: 'flex justify-between items-start mb-3' },
+        h('div', { class: 'flex-1' },
+          EditableInput(e.proposal, v => updateElection(e.id, 'proposal', v), 'Proposal'),
+          h('div', { class: 'flex gap-2 mt-2' },
+            EditableInput(e.date, v => updateElection(e.id, 'date', v), 'Date'),
+            EditableInput(e.type, v => updateElection(e.id, 'type', v), 'Type')
+          )
+        ),
+        h('div', { class: 'flex gap-2 items-center' },
+          EditableCheckbox(e.passed, v => updateElection(e.id, 'passed', v)),
+          e.passed ? h('span', { class: 'text-green-400 text-xs' }, 'Passed') : h('span', { class: 'text-red-400 text-xs' }, 'Failed'),
+          ActionButton('Del', async () => {
+            if (!confirm('Delete election ' + e.id + '?')) return;
+            await apiDelete('/elections/' + e.id);
+            renderElections(el);
+          }, 'red')
+        )
+      ),
+      h('div', { class: 'grid grid-cols-2 gap-3 mt-3' },
+        EditableInput(e.option1, v => updateElection(e.id, 'option1', v), 'Option 1'),
+        EditableInput(e.votes1, v => updateElection(e.id, 'votes1', v), 'Votes', 'number'),
+        EditableInput(e.option2, v => updateElection(e.id, 'option2', v), 'Option 2'),
+        EditableInput(e.votes2, v => updateElection(e.id, 'votes2', v), 'Votes', 'number')
+      )
+    )
+  );
+  
+  applyDiff(el, h('div', {},
+    PageHeader({ title:'Elections', sub:'Voting history & results' }),
+    h('div', { class: 'mb-4' },
+      h('button', { class: 'btn-orange px-4 py-2 rounded-lg text-sm font-medium', onclick: async () => {
+        await apiPost('/elections', { proposal: 'New Election', date: '', type: '', option1: 'Yes', votes1: 0, option2: 'No', votes2: 0, passed: false });
+        renderElections(el);
+      }}, '+ Add Election')
+    ),
+    ...items
+  ));
 }
 
 export async function renderJury(el) {
   const data = await api('/jury') || [];
   const eligible = data.filter(j => j.jury_duty).length;
+  
+  const updateJury = async (resId, field, value) => {
+    const j = data.find(x => x.resident_id === resId);
+    if (j) {
+      j[field] = value;
+      await apiPut(`/jury/${resId}`, j);
+    }
+  };
+  
   const rows = data.map(j => TR([
-    j.resident_id, j.first_name||'-', j.last_name||'-',
-    webjsx.html`<span class="${j.jury_duty?'text-green-400':'text-gray-500'}">${j.jury_duty?'Eligible':'Exempt'}</span>`,
-    j.payment?`$${j.payment}`:'$0'
+    EditableInput(j.resident_id, v => updateJury(j.resident_id, 'resident_id', v), '', 'number'),
+    EditableInput(j.first_name, v => updateJury(j.resident_id, 'first_name', v), 'First'),
+    EditableInput(j.last_name, v => updateJury(j.resident_id, 'last_name', v), 'Last'),
+    EditableCheckbox(j.jury_duty, v => updateJury(j.resident_id, 'jury_duty', v)),
+    EditableInput(j.payment, v => updateJury(j.resident_id, 'payment', v), '$', 'number'),
+    ActionButton('Del', async () => {
+      if (!confirm('Delete jury member ' + j.resident_id + '?')) return;
+      await apiDelete('/jury/' + j.resident_id);
+      renderJury(el);
+    }, 'red')
   ], j.resident_id));
-  webjsx.applyDiff(el, webjsx.html`<div>
-    ${PageHeader({ title:'Jury Pool', sub:`${eligible} eligible of ${data.length}` })}
-    ${Table({ headers:['ID','First','Last','Status','Pay'], rows })}
-  </div>`);
+  
+  applyDiff(el, h('div', {},
+    PageHeader({ title:'Jury Pool', sub:`${eligible} eligible of ${data.length}` }),
+    h('div', { class: 'mb-4' },
+      h('button', { class: 'btn-orange px-4 py-2 rounded-lg text-sm font-medium', onclick: async () => {
+        const maxId = Math.max(...data.map(j => j.resident_id), 0);
+        await apiPost('/jury', { resident_id: maxId + 1, first_name: '', last_name: '', jury_duty: true, payment: 0 });
+        renderJury(el);
+      }}, '+ Add Jury Member')
+    ),
+    Table({ headers:['ID','First','Last','Eligible','Pay',''], rows })
+  ));
 }
 
 export async function renderCrimes(el) {
   const data = await api('/crimes') || [];
+  
+  const updateCrime = async (id, field, value) => {
+    const c = data.find(x => x.id === id);
+    if (c) {
+      c[field] = value;
+      await apiPut(`/crimes/${id}`, c);
+    }
+  };
+  
   const rows = data.map(c => TR([
-    c.id, c.date||'-', c.resident_id||'-', c.crime||'Unknown',
-    webjsx.html`<span class="${c.guilty?'text-red-400':'text-gray-400'}">${c.guilty?'Guilty':'Not Guilty'}</span>`,
-    c.sentence_months?c.sentence_months+' mo':'-',
-    c.fine?`$${c.fine}`:'-',
-    c.fine_paid?webjsx.html`<span class="text-green-400">Paid</span>`:webjsx.html`<span class="text-orange-400">Owed: $${c.fine_owed||0}</span>`,
-    c.description||'-'
+    c.id,
+    EditableCheckbox(c.not_guilty, v => updateCrime(c.id, 'not_guilty', v)),
+    EditableInput(c.months, v => updateCrime(c.id, 'months', v), '', 'number'),
+    EditableInput(c.final_months, v => updateCrime(c.id, 'final_months', v), '', 'number'),
+    EditableInput(c.note, v => updateCrime(c.id, 'note', v), 'Note'),
+    ActionButton('Del', async () => {
+      if (!confirm('Delete crime ' + c.id + '?')) return;
+      await apiDelete('/crimes/' + c.id);
+      renderCrimes(el);
+    }, 'red')
   ], c.id));
-  webjsx.applyDiff(el, webjsx.html`<div>
-    ${PageHeader({ title:'Criminal Records', sub:`${data.length} records` })}
-    ${Table({ headers:['#','Date','Resident','Crime','Verdict','Sentence','Fine','Status','Description'], rows })}
-  </div>`);
+  
+  applyDiff(el, h('div', {},
+    PageHeader({ title:'Criminal Records', sub:`${data.length} records` }),
+    h('div', { class: 'mb-4' },
+      h('button', { class: 'btn-orange px-4 py-2 rounded-lg text-sm font-medium', onclick: async () => {
+        await apiPost('/crimes', { not_guilty: false, months: null, final_months: null, note: '' });
+        renderCrimes(el);
+      }}, '+ Add Crime Record')
+    ),
+    Table({ headers:['#','Not Guilty','Months','Final','Note',''], rows })
+  ));
 }
 
 export async function renderCharity(el) {
   const data = await api('/charity') || [];
-  const total = data.reduce((s,c) => s+c.budget, 0);
-  webjsx.applyDiff(el, webjsx.html`<div>
-    ${PageHeader({ title:'Charity Market', sub:'Community charitable organizations' })}
-    <div class="glass rounded-xl p-4 mb-6 glow-orange">
-      <p class="text-xs text-gray-400 uppercase tracking-widest mb-1">Total Monthly Budget</p>
-      <p class="text-3xl font-bold text-orange-400">$${total}</p>
-    </div>
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-      ${data.map(c => webjsx.html`
-        <div class="stat-card rounded-xl p-5">
-          <div class="flex justify-between items-start mb-3">
-            <h3 class="font-semibold text-purple-200">${c.name}</h3>
-            <span class="text-xs bg-orange-900/30 text-orange-400 px-2 py-1 rounded">ID:${c.id}</span>
-          </div>
-          <div class="space-y-2 text-sm">
-            <div class="flex justify-between"><span class="text-gray-400">Employees</span><span>${c.employees}</span></div>
-            <div class="flex justify-between"><span class="text-gray-400">Budget/mo</span><span class="text-orange-400 font-medium">$${c.budget}</span></div>
-            <div class="flex justify-between"><span class="text-gray-400">Per Employee</span><span>$${c.per_employee}</span></div>
-            <div class="flex justify-between"><span class="text-gray-400">2025 Rating</span><span class="text-purple-400">${c.rating_2025} pts</span></div>
-          </div>
-          <div class="mt-3 h-1.5 rounded-full bg-gray-800">
-            <div class="h-1.5 rounded-full" style="width:${Math.min(100,(c.budget/total)*100*3)}%;background:linear-gradient(90deg,#6b21a8,#f97316)"></div>
-          </div>
-        </div>`)}
-    </div>
-  </div>`);
+  const total = data.reduce((s,c) => s + (c.budget || 0), 0);
+  
+  const updateCharity = async (id, field, value) => {
+    const c = data.find(x => x.id === id);
+    if (c) {
+      c[field] = value;
+      await apiPut(`/charity/${id}`, c);
+    }
+  };
+  
+  const cards = data.map(c => 
+    h('div', { class: 'stat-card rounded-xl p-5' },
+      h('div', { class: 'flex justify-between items-start mb-3' },
+        EditableInput(c.name, v => updateCharity(c.id, 'name', v), 'Name'),
+        h('div', { class: 'flex gap-2 items-center' },
+          h('span', { class: 'text-xs bg-orange-900/30 text-orange-400 px-2 py-1 rounded' }, `ID:${c.id}`),
+          ActionButton('Del', async () => {
+            if (!confirm('Delete charity ' + c.id + '?')) return;
+            await apiDelete('/charity/' + c.id);
+            renderCharity(el);
+          }, 'red')
+        )
+      ),
+      h('div', { class: 'space-y-2 text-sm' },
+        h('div', { class: 'flex justify-between' }, h('span', { class: 'text-gray-400' }, 'Employees'), EditableInput(c.employees, v => updateCharity(c.id, 'employees', v), '', 'number')),
+        h('div', { class: 'flex justify-between' }, h('span', { class: 'text-gray-400' }, 'Budget/mo'), EditableInput(c.budget, v => updateCharity(c.id, 'budget', v), '$', 'number')),
+        h('div', { class: 'flex justify-between' }, h('span', { class: 'text-gray-400' }, 'Per Employee'), h('span', {}, `$${c.per_employee || 0}`)),
+        h('div', { class: 'flex justify-between' }, h('span', { class: 'text-gray-400' }, 'Rating'), EditableInput(c.rating_2025, v => updateCharity(c.id, 'rating_2025', v), '', 'number'))
+      ),
+      h('div', { class: 'mt-3 h-1.5 rounded-full bg-gray-800' },
+        h('div', { class: 'h-1.5 rounded-full', style: `width:${Math.min(100,(c.budget/total)*100*3)}%;background:linear-gradient(90deg,#6b21a8,#f97316)` })
+      )
+    )
+  );
+  
+  applyDiff(el, h('div', {},
+    PageHeader({ title:'Charity Market', sub:'Community charitable organizations' }),
+    h('div', { class: 'glass rounded-xl p-4 mb-6 glow-orange' },
+      h('p', { class: 'text-xs text-gray-400 uppercase tracking-widest mb-1' }, 'Total Monthly Budget'),
+      h('p', { class: 'text-3xl font-bold text-orange-400' }, `$${total}`)
+    ),
+    h('div', { class: 'mb-4' },
+      h('button', { class: 'btn-orange px-4 py-2 rounded-lg text-sm font-medium', onclick: async () => {
+        await apiPost('/charity', { name: 'New Charity', employees: 1, budget: 0, per_employee: 0, rating_2025: 0 });
+        renderCharity(el);
+      }}, '+ Add Charity')
+    ),
+    h('div', { class: 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4' }, ...cards)
+  ));
 }
