@@ -1,0 +1,160 @@
+{
+  "events": [
+    {
+      "day": "Sunday",
+      "recurring": true,
+      "events": [
+        "Sabbath",
+        "City-wide Shroom Trip"
+      ]
+    },
+    {
+      "day": "Monday",
+      "recurring": true,
+      "events": [
+        "Market Monday (noon)",
+        "Meat Monday",
+        "Main internet shut off"
+      ]
+    },
+    {
+      "day": "Tuesday",
+      "recurring": true,
+      "events": [
+        "Volleyball @10",
+        "Tennis @12",
+        "Frisbee @3",
+        "Football @8"
+      ]
+    },
+    {
+      "day": "Wednesday",
+      "recurring": true,
+      "events": [
+        "Volleyball @10",
+        "Tennis @12",
+        "Frisbee @3",
+        "Football @8",
+        "Main electricity shut off"
+      ]
+    },
+    {
+      "day": "Thursday",
+      "recurring": true,
+      "events": [
+        "Volleyball @10",
+        "Tennis @12",
+        "Frisbee @3",
+        "Football @8"
+      ]
+    },
+    {
+      "day": "Friday",
+      "recurring": true,
+      "events": [
+        "Volleyball @10",
+        "Tennis @12",
+        "Frisbee @3",
+        "Football @6"
+      ]
+    },
+    {
+      "day": "Saturday",
+      "recurring": true,
+      "events": [
+        "Singles Night",
+        "Party/BBQ/Concert (noon-midnight)"
+      ]
+    }
+  ],
+  "special_weeks": [
+    {
+      "week": 1,
+      "events": [
+        {
+          "day": "Tuesday",
+          "events": [
+            "Development Council Meeting (6pm Discord)"
+          ]
+        },
+        {
+          "day": "Wednesday",
+          "events": [
+            "Artistic Council Meeting (6pm Discord)"
+          ]
+        },
+        {
+          "day": "Thursday",
+          "events": [
+            "Financing Meeting (6pm Discord)"
+          ]
+        },
+        {
+          "day": "Friday",
+          "events": [
+            "Party / BBQ / Concert (noon \u2013 midnight)"
+          ]
+        },
+        {
+          "day": "Saturday",
+          "events": [
+            "Singles Night"
+          ]
+        }
+      ]
+    },
+    {
+      "week": 2,
+      "events": [
+        {
+          "day": "Monday",
+          "events": [
+            "Meat Monday"
+          ]
+        },
+        {
+          "day": "Wednesday",
+          "events": [
+            "Party (6pm)",
+            "Concert (8pm)"
+          ]
+        },
+        {
+          "day": "Friday",
+          "events": [
+            "Party (6pm)"
+          ]
+        },
+        {
+          "day": "Saturday",
+          "events": [
+            "Singles Night"
+          ]
+        }
+      ]
+    },
+    {
+      "week": 4,
+      "events": [
+        {
+          "day": "Monday",
+          "events": [
+            "Meat Monday"
+          ]
+        },
+        {
+          "day": "Tuesday",
+          "events": [
+            "Concert (8pm)"
+          ]
+        },
+        {
+          "day": "Saturday",
+          "events": [
+            "Singles Night"
+          ]
+        }
+      ]
+    }
+  ]
+}

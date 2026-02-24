@@ -1,0 +1,102 @@
+{
+  "1": {
+    "name": "Theft",
+    "severity": "Medium",
+    "max_months": 12
+  },
+  "2": {
+    "name": "Assault",
+    "severity": "High",
+    "max_months": 24
+  },
+  "3": {
+    "name": "Fraud",
+    "severity": "Medium",
+    "max_months": 18
+  },
+  "4": {
+    "name": "Vandalism",
+    "severity": "Low",
+    "max_months": 6
+  },
+  "5": {
+    "name": "Harassment",
+    "severity": "Low",
+    "max_months": 9
+  },
+  "6": {
+    "name": "Breaking & Entering",
+    "severity": "High",
+    "max_months": 36
+  },
+  "7": {
+    "name": "Larceny",
+    "severity": "Medium",
+    "max_months": 12
+  },
+  "8": {
+    "name": "Trespassing",
+    "severity": "Low",
+    "max_months": 3
+  },
+  "9": {
+    "name": "Disorderly Conduct",
+    "severity": "Low",
+    "max_months": 3
+  },
+  "10": {
+    "name": "Public Intoxication",
+    "severity": "Low",
+    "max_months": 6
+  },
+  "11": {
+    "name": "Drug Possession",
+    "severity": "High",
+    "max_months": 24
+  },
+  "12": {
+    "name": "Drug Distribution",
+    "severity": "Critical",
+    "max_months": 60
+  },
+  "13": {
+    "name": "Arson",
+    "severity": "Critical",
+    "max_months": 60
+  },
+  "14": {
+    "name": "Murder",
+    "severity": "Critical",
+    "max_months": 120
+  },
+  "15": {
+    "name": "Manslaughter",
+    "severity": "Critical",
+    "max_months": 72
+  },
+  "16": {
+    "name": "Robbery",
+    "severity": "High",
+    "max_months": 30
+  },
+  "17": {
+    "name": "Kidnapping",
+    "severity": "Critical",
+    "max_months": 120
+  },
+  "18": {
+    "name": "Extortion",
+    "severity": "High",
+    "max_months": 36
+  },
+  "19": {
+    "name": "Perjury",
+    "severity": "Medium",
+    "max_months": 18
+  },
+  "20": {
+    "name": "Contempt of Court",
+    "severity": "Medium",
+    "max_months": 12
+  }
+}

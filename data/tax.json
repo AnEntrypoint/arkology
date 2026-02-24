@@ -1,0 +1,50 @@
+{
+  "electric": {
+    "property_2": {
+      "july": 0,
+      "august": 0,
+      "september": 0,
+      "october": 0,
+      "november": 0,
+      "december": 0
+    },
+    "property_3": {
+      "july": 0,
+      "august": 0,
+      "september": 0,
+      "october": 0,
+      "november": 0,
+      "december": 0
+    },
+    "property_5": {
+      "july": 0,
+      "august": 0,
+      "september": 0,
+      "october": 0,
+      "november": 0,
+      "december": 0
+    }
+  },
+  "sin": {
+    "property_2": {
+      "july": 0,
+      "august": 0,
+      "september": 0,
+      "october": 0
+    },
+    "property_3": {
+      "july": 0,
+      "august": 0,
+      "september": 0,
+      "october": 0
+    },
+    "property_5": {
+      "july": 0,
+      "august": 0,
+      "september": 0,
+      "october": 0
+    }
+  },
+  "total_electric_revenue": 0,
+  "total_sin_revenue": 0
+}
