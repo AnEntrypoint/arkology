@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ark Community - Resident Management</title>
+<link href="https://cdn.jsdelivr.net/npm/rippleui@1.12.1/dist/css/styles.css" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      colors: {
+        ark: { bg: '#0a0a0f', card: '#12121a', border: '#1e1030',
+          purple1: '#6b21a8', purple2: '#9333ea', orange1: '#f97316', orange2: '#ea580c' }
+      }
+    }
+  }
+}
+</script>
+<style>
+body { background: #0a0a0f; color: #e2e8f0; font-family: 'Inter', system-ui, sans-serif; }
+.glass { background: rgba(18,18,26,0.85); backdrop-filter: blur(12px); border: 1px solid #1e1030; }
+.glow-purple { box-shadow: 0 0 20px rgba(147,51,234,0.3); }
+.glow-orange { box-shadow: 0 0 20px rgba(249,115,22,0.3); }
+.sidebar-item { transition: all 0.2s; }
+.sidebar-item:hover, .sidebar-item.active { background: linear-gradient(90deg, rgba(107,33,168,0.4), transparent); border-left: 3px solid #f97316; }
+.stat-card { background: linear-gradient(135deg, #12121a 0%, #1a0d2e 100%); border: 1px solid #2d1554; }
+.grad-text { background: linear-gradient(135deg, #f97316, #9333ea); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.btn-orange { background: linear-gradient(135deg, #f97316, #ea580c); color: white; border: none; }
+.btn-purple { background: linear-gradient(135deg, #6b21a8, #9333ea); color: white; border: none; }
+.table-row:hover { background: rgba(107,33,168,0.15); }
+::-webkit-scrollbar { width: 4px; } ::-webkit-scrollbar-track { background: #0a0a0f; }
+::-webkit-scrollbar-thumb { background: #6b21a8; border-radius: 2px; }
+.section { display: none; } .section.active { display: block; }
+nav a { cursor: pointer; }
+</style>
+</head>
+<body class="flex h-screen overflow-hidden">
+
+<aside class="w-64 glass flex flex-col py-6 px-3 overflow-y-auto shrink-0">
+  <div class="mb-8 px-3">
+    <h1 class="text-xl font-bold grad-text">ARK COMMUNITY</h1>
+    <p class="text-xs text-purple-400 mt-1">Resident Management v1.0</p>
+  </div>
+  <nav class="flex flex-col gap-1" id="nav">
+    <a class="sidebar-item active px-4 py-2.5 rounded text-sm flex items-center gap-3" data-section="dashboard">
+      <span>&#9632;</span> Dashboard
+    </a>
+    <a class="sidebar-item px-4 py-2.5 rounded text-sm flex items-center gap-3" data-section="residents">
+      <span>&#128100;</span> Residents
+    </a>
+    <a class="sidebar-item px-4 py-2.5 rounded text-sm flex items-center gap-3" data-section="properties">
+      <span>&#127968;</span> Properties
+    </a>
+    <div class="px-4 pt-4 pb-1 text-xs text-purple-500 uppercase tracking-widest">Finance</div>
+    <a class="sidebar-item px-4 py-2.5 rounded text-sm flex items-center gap-3" data-section="bonds">
+      <span>&#128176;</span> Bonds
+    </a>
+    <a class="sidebar-item px-4 py-2.5 rounded text-sm flex items-center gap-3" data-section="transactions">
+      <span>&#8644;</span> Transactions
+    </a>
+    <a class="sidebar-item px-4 py-2.5 rounded text-sm flex items-center gap-3" data-section="budget">
+      <span>&#128200;</span> Budget History
+    </a>
+    <div class="px-4 pt-4 pb-1 text-xs text-purple-500 uppercase tracking-widest">Governance</div>
+    <a class="sidebar-item px-4 py-2.5 rounded text-sm flex items-center gap-3" data-section="councils">
+      <span>&#9876;</span> Councils
+    </a>
+    <a class="sidebar-item px-4 py-2.5 rounded text-sm flex items-center gap-3" data-section="elections">
+      <span>&#128499;</span> Elections
+    </a>
+    <a class="sidebar-item px-4 py-2.5 rounded text-sm flex items-center gap-3" data-section="jury">
+      <span>&#9878;</span> Jury Pool
+    </a>
+    <div class="px-4 pt-4 pb-1 text-xs text-purple-500 uppercase tracking-widest">Community</div>
+    <a class="sidebar-item px-4 py-2.5 rounded text-sm flex items-center gap-3" data-section="crimes">
+      <span>&#128274;</span> Criminal Records
+    </a>
+    <a class="sidebar-item px-4 py-2.5 rounded text-sm flex items-center gap-3" data-section="charity">
+      <span>&#10084;</span> Charity Market
+    </a>
+  </nav>
+</aside>
+
+<main class="flex-1 overflow-y-auto p-6" id="main-content">
+  <div id="dashboard" class="section active"></div>
+  <div id="residents" class="section"></div>
+  <div id="properties" class="section"></div>
+  <div id="bonds" class="section"></div>
+  <div id="transactions" class="section"></div>
+  <div id="budget" class="section"></div>
+  <div id="councils" class="section"></div>
+  <div id="elections" class="section"></div>
+  <div id="jury" class="section"></div>
+  <div id="crimes" class="section"></div>
+  <div id="charity" class="section"></div>
+</main>
+
+<script type="module" src="app.js"></script>
+</body>
+</html>

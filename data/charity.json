@@ -1,0 +1,47 @@
+[
+  {
+    "id": 2,
+    "name": "Homeless Homies",
+    "employees": 3,
+    "budget": 258,
+    "per_employee": 86,
+    "rating_2025": 40,
+    "budget_2025": 258
+  },
+  {
+    "id": 3,
+    "name": "Widow Wisdom",
+    "employees": 2,
+    "budget": 161,
+    "per_employee": 81,
+    "rating_2025": 25,
+    "budget_2025": 161
+  },
+  {
+    "id": 4,
+    "name": "Orphan Organ",
+    "employees": 5,
+    "budget": 129,
+    "per_employee": 26,
+    "rating_2025": 20,
+    "budget_2025": 129
+  },
+  {
+    "id": 5,
+    "name": "Science + Arts",
+    "employees": 3,
+    "budget": 322,
+    "per_employee": 107,
+    "rating_2025": 50,
+    "budget_2025": 322
+  },
+  {
+    "id": 6,
+    "name": "Musical Muse",
+    "employees": 2,
+    "budget": 483,
+    "per_employee": 242,
+    "rating_2025": 75,
+    "budget_2025": 483
+  }
+]

@@ -1,0 +1,67 @@
+[
+  {
+    "serial": 1,
+    "amount_k": 10,
+    "interest_pct": 3,
+    "years": 10,
+    "payment": 97,
+    "total_interest": 1587,
+    "repayment": 11587,
+    "interest_pct_total": "16%",
+    "date_issued": "02/02/22",
+    "date_maturity": "01/31/32",
+    "outstanding": true
+  },
+  {
+    "serial": 2,
+    "amount_k": 25,
+    "interest_pct": 4,
+    "years": 15,
+    "payment": 185,
+    "total_interest": 8286,
+    "repayment": 33286,
+    "interest_pct_total": "33%",
+    "date_issued": "02/02/22",
+    "date_maturity": "01/31/37",
+    "outstanding": true
+  },
+  {
+    "serial": 3,
+    "amount_k": 100,
+    "interest_pct": 2,
+    "years": 15,
+    "payment": 644,
+    "total_interest": 15832,
+    "repayment": 115832,
+    "interest_pct_total": "16%",
+    "date_issued": "02/02/22",
+    "date_maturity": "01/31/32",
+    "outstanding": false
+  },
+  {
+    "serial": 4,
+    "amount_k": 500,
+    "interest_pct": 3,
+    "years": 20,
+    "payment": 2773,
+    "total_interest": 165517,
+    "repayment": 665517,
+    "interest_pct_total": "33%",
+    "date_issued": "02/02/22",
+    "date_maturity": "01/29/37",
+    "outstanding": true
+  },
+  {
+    "serial": 5,
+    "amount_k": 20,
+    "interest_pct": 5,
+    "years": 10,
+    "payment": 212,
+    "total_interest": 5456,
+    "repayment": 25456,
+    "interest_pct_total": "27%",
+    "date_issued": "02/02/22",
+    "date_maturity": "01/29/37",
+    "outstanding": false
+  }
+]

@@ -1,0 +1,112 @@
+[
+  {
+    "id": "P1",
+    "transaction": "T1",
+    "address": "23 Lofty Lane",
+    "sqft": 900,
+    "value_k": 200,
+    "date": "03/24/24",
+    "owner_id": 2,
+    "used_for": "Res",
+    "prop_tax": 9
+  },
+  {
+    "id": "P2",
+    "transaction": "T2",
+    "address": "94 Comfy Corner",
+    "sqft": 1100,
+    "value_k": 250,
+    "date": "04/02/24",
+    "owner_id": 2,
+    "used_for": "Res",
+    "prop_tax": 16
+  },
+  {
+    "id": "P3",
+    "transaction": "T3",
+    "address": "23 Creative Castle",
+    "sqft": 3300,
+    "value_k": 600,
+    "date": "05/07/24",
+    "owner_id": 5,
+    "used_for": "Com",
+    "prop_tax": 183
+  },
+  {
+    "id": "P4",
+    "transaction": "T4",
+    "address": "123 PlayPlace",
+    "sqft": 875,
+    "value_k": 100,
+    "date": "07/08/24",
+    "owner_id": 5,
+    "used_for": "Indus",
+    "prop_tax": 8
+  },
+  {
+    "id": "P5",
+    "transaction": "T5",
+    "address": "2 West Bay",
+    "sqft": 2400,
+    "value_k": 300,
+    "date": "08/01/24",
+    "owner_id": 7,
+    "used_for": "Com",
+    "prop_tax": 96
+  },
+  {
+    "id": "P6",
+    "transaction": "T6",
+    "address": "2 Br generic",
+    "sqft": 1200,
+    "value_k": 150,
+    "date": "08/06/24",
+    "owner_id": 11,
+    "used_for": "Church",
+    "prop_tax": 20
+  },
+  {
+    "id": "P7",
+    "transaction": "T7",
+    "address": "48 Youtube Dr",
+    "sqft": 2400,
+    "value_k": 200,
+    "date": "02/05/25",
+    "owner_id": 5,
+    "used_for": "Public",
+    "prop_tax": 96
+  },
+  {
+    "id": "P8",
+    "transaction": "T8",
+    "address": "15 Tech Park",
+    "sqft": 2000,
+    "value_k": 250,
+    "date": "06/04/25",
+    "owner_id": 20,
+    "used_for": "Res",
+    "prop_tax": 0
+  },
+  {
+    "id": "P9",
+    "transaction": "T9",
+    "address": "40 Grassy Knoll",
+    "sqft": 1500,
+    "value_k": 400,
+    "date": "07/08/25",
+    "owner_id": 15,
+    "used_for": "Charity",
+    "prop_tax": 0
+  },
+  {
+    "id": "P10",
+    "transaction": "T10",
+    "address": "20 Learning Way",
+    "sqft": 5000,
+    "value_k": 500,
+    "date": "10/06/25",
+    "owner_id": 11,
+    "used_for": "School",
+    "prop_tax": 0
+  }
+]

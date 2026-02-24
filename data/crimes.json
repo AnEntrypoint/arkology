@@ -1,0 +1,57 @@
+[
+  {
+    "id": 1,
+    "date": "06/28/23",
+    "resident_id": 4,
+    "crime": "Harassment",
+    "guilty": true,
+    "sentence_months": 1,
+    "sentence_start": "07/01/23",
+    "sentence_end": "07/31/23",
+    "victim_id": 5,
+    "fine": 2000,
+    "fine_owed": 1000,
+    "fine_paid": false,
+    "deputy_id": 6,
+    "description": "Harassed HighTea"
+  },
+  {
+    "id": 2,
+    "date": "06/29/23",
+    "resident_id": 2,
+    "crime": "Unknown",
+    "guilty": false,
+    "sentence_months": 0,
+    "victim_id": 6,
+    "fine": 0,
+    "fine_owed": 0,
+    "fine_paid": false,
+    "description": ""
+  },
+  {
+    "id": 3,
+    "date": "06/30/23",
+    "resident_id": 3,
+    "crime": "Unknown",
+    "guilty": false,
+    "sentence_months": 0,
+    "victim_id": 7,
+    "fine": 0,
+    "fine_owed": 0,
+    "fine_paid": false,
+    "description": ""
+  },
+  {
+    "id": 4,
+    "date": "07/01/23",
+    "resident_id": 5,
+    "crime": "Unknown",
+    "guilty": false,
+    "sentence_months": 0,
+    "victim_id": 3,
+    "fine": 0,
+    "fine_owed": 0,
+    "fine_paid": false,
+    "description": ""
+  }
+]

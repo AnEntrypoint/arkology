@@ -1,0 +1,72 @@
+[
+  {
+    "resident_id": 2,
+    "last_name": "Time",
+    "first_name": "Traveling",
+    "jury_duty": true,
+    "payment": 181
+  },
+  {
+    "resident_id": 3,
+    "last_name": "Tea",
+    "first_name": "High",
+    "jury_duty": true,
+    "payment": 3
+  },
+  {
+    "resident_id": 5,
+    "last_name": "",
+    "first_name": "",
+    "jury_duty": true,
+    "payment": 78
+  },
+  {
+    "resident_id": 7,
+    "last_name": "",
+    "first_name": "",
+    "jury_duty": true,
+    "payment": 230
+  },
+  {
+    "resident_id": 8,
+    "last_name": "",
+    "first_name": "",
+    "jury_duty": true,
+    "payment": 40
+  },
+  {
+    "resident_id": 9,
+    "last_name": "",
+    "first_name": "",
+    "jury_duty": true,
+    "payment": 30
+  },
+  {
+    "resident_id": 10,
+    "last_name": "",
+    "first_name": "",
+    "jury_duty": false,
+    "payment": 0
+  },
+  {
+    "resident_id": 11,
+    "last_name": "",
+    "first_name": "",
+    "jury_duty": true,
+    "payment": 30
+  },
+  {
+    "resident_id": 13,
+    "last_name": "",
+    "first_name": "",
+    "jury_duty": true,
+    "payment": 4
+  },
+  {
+    "resident_id": 14,
+    "last_name": "",
+    "first_name": "",
+    "jury_duty": true,
+    "payment": 0
+  }
+]

@@ -1,0 +1,20 @@
+[
+  {
+    "id": 1,
+    "direction": 1,
+    "resident_id": 4,
+    "amount": 500,
+    "date": "07/01/23",
+    "btc": "",
+    "purpose": "Fine"
+  },
+  {
+    "id": 2,
+    "direction": 1,
+    "resident_id": 4,
+    "amount": 500,
+    "date": "",
+    "btc": "",
+    "purpose": "Fine"
+  }
+]
