@@ -6,8 +6,9 @@ from pathlib import Path
 class Resident:
     def __init__(self, res_id, last_name="", first_name="", email="", address="", 
                  year_born=2000, gender="", age=0, payment=0, net_tax=0, 
-                 age_ubi=0, alive=True, charity=0, property=0, children=0,
-                 sunlight=0, wealth=0, voting=False, jury_duty=False, disabled=False):
+                 age_ubi=0, alive=True, charity=0, property=0, children=0, child=0,
+                 sunlight=0, wealth=0, voting=False, jury_duty=False, disabled=False,
+                 year=0, census=""):
         self.res_id = res_id
         self.last_name = last_name
         self.first_name = first_name
@@ -22,12 +23,14 @@ class Resident:
         self.alive = alive
         self.charity = charity
         self.property = property
-        self.children = children
+        self.children = children or child
         self.sunlight = sunlight
         self.wealth = wealth
         self.voting = voting
         self.jury_duty = jury_duty
         self.disabled = disabled
+        self.year = year
+        self.census = census
     
     def to_dict(self):
         return self.__dict__
